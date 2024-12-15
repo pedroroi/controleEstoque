@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0px;
+    text-decoration: none;
+    outline: none;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /*vertical*/
+    align-items: center; /*horizontal*/
+    padding: 20px;
+    margin: auto;
+    max-width: 100vh;
+    max-height: 100vh;
+    background-color: rgb(216, 219, 221);
+    font: normal 30px Arial;
+    color: rgb(0, 0, 0);
+}
+
+.containerLogin {
+    margin: 20px;
+    margin-top: 110px;
+    padding: 20px;
+    max-width: 500px;
+    border-radius: 18px;
+    background-color: rgb(112, 105, 105);
+    text-align: center;
+}
+
+.containerLogin h3 {
+    font: normal 30px Arial;
+    color: rgb(255, 255, 255);
+}
+
+.containerLogin hr {
+    border: none;
+    border-top: 1px solid rgb(149, 146, 146);
+    margin: 20px;
+    padding: 0;
+}
+
+.containerInput {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+.containerInput input {
+    padding: 20px;
+    margin: 0;
+    margin: 5px;
+    width: 87%;
+}
+
+.containerInput #lembrar {
+    margin: 0;
+    padding: 0;
+    border: none;
+    width: 20px;
+}
+
+.containerCadastro {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    justify-content: center; /*vertical*/
+    align-items: center; /*horizontal*/
+}
+
+.containerCadastro a {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    outline: none;
+    color: white;
+    font: normal 13px Arial;
+}
+
+.containerCadastro a:hover {
+    cursor: pointer;
+    text-decoration: none;
+    color: #e0dbdb;
+}
+
+.containerLogin label {
+    margin: 0;
+    padding: 0;
+    font: normal 16px Arial;
+    color: white;
+}
+
+.containerLogin button {
+    border-radius: 15px;
+    margin-top: 12px;
+    height: 50px;
+    width: 20%;
+    border: none;  
+}
+
+.containerLogin button:hover {
+    cursor: pointer;
+    background: #e0dbdb;
+    text-decoration: none;
+    color: #4c4b4b;
+}
+
+footer {
+    font: normal 20px Arial;
+    text-align: center;
+    color: rgb(112, 105, 105);
+}
+
