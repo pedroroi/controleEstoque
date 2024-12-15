@@ -1,0 +1,117 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Inclui padding e border no tamanho total */
+    text-decoration: none;
+    outline: none;
+    font: normal 16px Arial;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Garante que o body ocupe a altura da tela */
+    max-width: 100vw; /* Impede overflow horizontal */
+    overflow-x: hidden; /* Remove rolagem horizontal */
+    background-color: rgb(219, 219, 219);
+}
+
+section.navbarSuperior {
+    background-color: rgb(112, 105, 105);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 4rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    overflow-x: auto; /* Adiciona rolagem horizontal apenas na navbar */
+}
+
+section.navbarSuperior ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    white-space: nowrap; /* Impede quebra de linha para os itens */
+}
+
+section.navbarSuperior li a {
+
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem; /* Adiciona espaço interno ao link */
+    border-radius: 5px; /* Arredonda as bordas */
+    transition: background-color 0.3s ease; /* Efeito ao passar o mouse */
+}
+
+section.navbarSuperior li a:hover {
+    background-color: #444; /* Cor ao passar o mouse */
+}
+
+#sair {
+    margin-left: auto; /* Move o item "Opções" para a direita */
+}
+
+section.iconesMenu {
+    background-color: rgb(255, 255, 255);
+    flex: 1; /* Faz a seção ocupar o espaço restante entre navbar e footer */
+    display: flex; /* Para alinhar os itens */
+    align-items: center; /* Alinha verticalmente no centro */
+    justify-content: center; /* Centraliza horizontalmente */
+    text-align: center; /* Alinha o texto dentro */
+    padding: 2rem; /* Espaçamento interno */
+}
+
+section.iconesMenu ul {
+    display: flex;
+    flex-wrap: wrap; /* Permite quebra de linha em telas pequenas */
+    gap: 2rem; /* Espaço entre itens */
+    list-style: none; /* Remove marcadores padrão */
+}
+
+section.iconesMenu li a {
+    color: rgb(0, 0, 0);
+    padding: 0.5rem 1rem; /* Espaço interno */
+    border-radius: 5px;
+    background-color: #c7c7c7;
+    transition: background-color 0.3s ease;
+}
+
+section.iconesMenu li a:hover {
+    background-color: #ddd;
+}
+
+footer {
+    font: normal 18px Arial;
+    background-color: rgb(112, 105, 105);
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    height: 4rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+    overflow-x: auto; /* Adiciona rolagem horizontal apenas no footer */
+}
+
+footer ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    justify-content: space-around; /* Os itens começam alinhados à esquerda */
+    white-space: nowrap; /* Impede quebra de linha para os itens */
+}
+
+footer li a {
+    color: white;
+    padding: 0.5rem 1rem; /* Espaço interno */
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+footer li a:hover {
+    background-color: #444;
+}
