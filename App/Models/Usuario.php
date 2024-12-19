@@ -1,44 +1,32 @@
 <?php
-// /App/Models/Usuario.php
 
 class Usuario {
-    private $conn;
+    private $usuario;
+    private $senha;
+    private $nivel_acesso;
 
-    public function __construct($conn) {
-        $this->conn = $conn;
+    public function setUsuario($usuario) {
+        return $this->usuario = $usuario;
     }
 
-    // Função para autenticar o usuário
-    public function autenticar($usuario, $senha) {
-        $sql = "SELECT * FROM Usuarios WHERE usuario = :usuario";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':usuario', $usuario);
-        $stmt->execute();
-        
-        $dados = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($dados && password_verify($senha, $dados['senha'])) {
-            return $dados;
-        } else {
-            return false;
-        }
+    public function setSenha($senha) {
+        return $this->senha = $senha;
     }
 
-    // Função para cadastrar um novo usuário
-    public function cadastrar($usuario, $senha, $nivel_acesso) {
-        $senhaHash = password_hash($senha, PASSWORD_DEFAULT); // Criptografa a senha
+    public function setNivel_acesso($nivel_acesso) {
+        return $this->nivel_acesso = $nivel_acesso;
+    }
 
-        $sql = "INSERT INTO Usuarios (usuario, senha, nivel_acesso) VALUES (:usuario, :senha, :nivel_acesso)";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':usuario', $usuario);
-        $stmt->bindParam(':senha', $senhaHash);
-        $stmt->bindParam(':nivel_acesso', $nivel_acesso);
+    public function getUsuario() {
+        return $this->usuario;
+    }
 
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
+    public function getSenha() {
+        return $this->senha;
+    }
+
+    public function getNivel_acesso($nivel_acesso) {
+        return $this->nivel_acesso;
     }
 }
 ?>

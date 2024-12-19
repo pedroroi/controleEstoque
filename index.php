@@ -21,7 +21,7 @@ if (isset($_SESSION['id_usuario'])) {
 </head>
 <body>
     <div class="containerLogin">
-        <form action="/projeto/App/Controllers/LoginController.php" method="POST">
+        <form action="/controleEstoque/App/Controllers/rota.php?acao=autenticar" method="POST">
             <h3>Login</h3>
             <hr>
             <div class="containerInput">
@@ -37,14 +37,6 @@ if (isset($_SESSION['id_usuario'])) {
                 <a href="/projeto/App/Views/cadastroUsuario.php">Criar novo cadastro</a>
             </div>
         </form>
-
-        <!-- Exibe mensagem de erro -->
-        <?php if ($erro): ?>
-            <div class="mensagemErro" style="color: red; text-align: center;">
-                <?= htmlspecialchars($erro); ?>
-            </div>
-        <?php endif; ?>
-        
     </div>
 
     <footer>

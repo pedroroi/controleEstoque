@@ -1,21 +1,3 @@
-<?php
-// /Views/cadastroUsuario.php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-require_once '../Controllers/CadastroController.php';
-
-// Instancia o controlador de cadastro
-$cadastroController = new CadastroController();
-
-// Verifica se houve erro no cadastro
-$erro = '';
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $erro = $cadastroController->cadastrar();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -26,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <div class="containerLogin">
-        <form action="cadastroUsuario.php" method="POST">
+        <form action="../rota.php?=cadastrarUsuario" method="POST">
             <h3>Cadastro de Usuário</h3>
             <hr>
             <div class="containerInput">

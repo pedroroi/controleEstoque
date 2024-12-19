@@ -19,13 +19,13 @@ require_once '../Controllers/verificarLogin.php';
     <section class="iconesMenu">
         <ul>
             <li>
-              <a href="#">Adicionar ícone</a>
+              <a href="../rota.php?acao=venda">Venda</a>
             </li>
             <li>
-                <a href="#">Adicionar ícone</a>
+                <a href="../rota.php?acao=cadastrarProduto">Cadastrar Produto</a>
             </li>
             <li>
-                <a href="#">Adicionar ícone</a>
+                <a href="../rota.php?acao=cadastrarFornecedor">Cadastrar Fornecedor</a>
             </li>
         </ul>
     </section>
