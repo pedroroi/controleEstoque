@@ -1,3 +1,24 @@
+<<<<<<< HEAD
+=======
+<?php
+// /Views/cadastroUsuario.php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+require_once '../Controllers/CadastroController.php';
+
+// Instancia o controlador de cadastro
+$cadastroController = new CadastroController();
+
+// Verifica se houve erro no cadastro
+$erro = '';
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $erro = $cadastroController->cadastrar();
+}
+?>
+
+>>>>>>> e5ae8b96f558c0cb4a939304f2addbdf0960d0e3
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -8,7 +29,11 @@
 </head>
 <body>
     <div class="containerLogin">
+<<<<<<< HEAD
         <form action="../rota.php?=cadastrarUsuario" method="POST">
+=======
+        <form action="cadastroUsuario.php" method="POST">
+>>>>>>> e5ae8b96f558c0cb4a939304f2addbdf0960d0e3
             <h3>Cadastro de Usuário</h3>
             <hr>
             <div class="containerInput">
