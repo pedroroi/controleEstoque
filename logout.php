@@ -17,6 +17,6 @@ if (ini_get("session.use_cookies")) {
 }
 
 // Redireciona para a página de login
-header('Location: /projeto/index.php');
+header('Location: index.php');
 exit(); // Garante que o script pare de executar
 ?>
