@@ -2,28 +2,31 @@
 
 require_once __DIR__ . '/../Models/Conexao.php';
 
-class CadastroController {
-    private $conn;
-    
-    // Função para cadastrar um novo usuário
+class UsuarioController {
     public function cadastrar($usuario) {
         try {
-            $conexao = new Conexao(); // Instancia a conexão
-            $this->conn = $conexao->getConexao(); // Atribui à propriedade $conn
-
-            $senhaHash = password_hash($senha, PASSWORD_DEFAULT); // Criptografa a senha
-
-            $sql = "INSERT INTO Usuarios (usuario, senha, nivel_acesso) VALUES (:usuario, :senha, :nivel_acesso)";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':usuario', $usuario);
-            $stmt->bindParam(':senha', $senhaHash);
-            $stmt->bindParam(':nivel_acesso', $nivel_acesso);
+            //include conexao.php
+            $conexao = new Conexao();
+            $conn = $conexao->getConexao();
+            
+            // Gera o hash da senha
+            $senhaHash = password_hash($usuario->getSenha(), PASSWORD_DEFAULT);
+        
+            // Insere o usuário com a senha hash no banco
+            $sql = "INSERT INTO Usuarios(usuario, senha, nivel_acesso) 
+                        VALUES (?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindValue(1, $usuario->getUsuario());
+            $stmt->bindParam(2, $senhaHash);
+            $stmt->bindValue(3, $usuario->getNivel_acesso());
             $stmt->execute();
 
             $conexao->fechar();
+        
         } catch (Exception $erro) {
             throw $erro;
         }
     }
+
 }
 ?>

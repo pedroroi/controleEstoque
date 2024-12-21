@@ -34,7 +34,7 @@ if (isset($_SESSION['id_usuario'])) {
             <button type="submit">Entrar</button>
             <hr>
             <div class="containerCadastro">
-                <a href="/projeto/App/Views/cadastroUsuario.php">Criar novo cadastro</a>
+                <a href="/controleEstoque/App/Views/cadastroUsuario.php">Criar novo cadastro</a>
             </div>
         </form>
     </div>

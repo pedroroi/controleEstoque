@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="containerLogin">
-        <form action="../rota.php?=cadastrarUsuario" method="POST">
+        <form action="/controleEstoque/App/Controllers/rota.php?acao=cadastrarUsuario" method="POST">
             <h3>Cadastro de Usuário</h3>
             <hr>
             <div class="containerInput">
@@ -24,17 +24,6 @@
                     </select>
             </div> 
             <br>
-            <!-- Exibe mensagem de erro ou sucesso -->
-            <?php if ($erro): ?>
-                <div class="mensagem" style="color: red; text-align: center;">
-                    <?= htmlspecialchars($erro); ?>
-                </div>
-            <?php elseif (isset($_GET['mensagem'])): ?>
-                <div class="mensagem" style="color: green; text-align: center;">
-                    <?= htmlspecialchars($_GET['mensagem']); ?>
-                </div>
-            <?php endif; ?>
-            
             <button type="submit">Cadastrar</button>
             <hr>
         </form>

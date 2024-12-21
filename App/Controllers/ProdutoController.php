@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../Models/Conexao.php';
 require_once __DIR__ . '/../Models/Produto.php';
 
-class ProdutosController {
+class ProdutoController {
     private $conn;
     
     // Método para cadastrar um produto
