@@ -35,25 +35,32 @@
             echo $erro = "MINHA POMBA";
         }
 
-    } else if ($acao == 'cadastrarProduto') {
-        include 'verificarUsuarioLogado.php';
-    
+    } else if ($acao == 'exibeCadastroProduto') {
+        include 'verificarLogin.php';
+
         $fornecedorControlador = new FornecedorController();
         $categoriaControlador = new CategoriaController();
         try {
             session_start();
             $id_usuario = $_SESSION['id_usuario'];
-    
-            $lista_fornecedores = $fornecedorControlador->listarFornecedores($id_usuario);
-            $lista_categorias = $categoriaControlador->listarCategorias($id_usuario);
-            $_SESSION['fornecedores'] = $lista_fornecedores;
-            $_SESSION['categorias'] = $lista_categorias;
+
+            $fornecedores = $fornecedorControlador->listarFornecedores($id_usuario);
+            $categorias = $categoriaControlador->listarCategorias($id_usuario);
+            $_SESSION['fornecedores'] = $fornecedores;
+            $_SESSION['categorias'] = $categorias;
+            // Redireciona para uma página de cadastro de produto
+            header('Location: ../Views/cadastroProduto.php');
         } catch (Exception $erro) {
             echo $erro->getMessage();
         }
+
+
+    } else if ($acao == 'cadastrarProduto') {
+        include 'verificarLogin.php';
+
+            session_start();
+            $id_usuario = $_SESSION['id_usuario'];
     
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Processar o cadastro do produto
             $nome = $_POST['nome'];
             $preco = $_POST['preco'];
             $estoque = $_POST['estoque'];
@@ -70,6 +77,7 @@
             $produto->setCodigoBarras($codigo_barras);
             $produto->setIdFornecedor($id_fornecedor);
             $produto->setIdCategoria($id_categoria);
+            $produto->setId_usuario($id_usuario);
     
             $produtoControlador = new ProdutoController();
             try {
@@ -78,14 +86,10 @@
             } catch (Exception $erro) {
                 echo $erro->getMessage();
             }
-        } else {
-            // Exibir o formulário de cadastro de produtos
-            include '../Views/cadastroProduto.php';
-        }
 
 
     } else if ($acao == 'listarProdutos') {
-        include 'verificarUsuarioLogado.php';
+        include 'verificarLogin.php';
     
         $produtoControlador = new ProdutoController();
         try {
@@ -142,7 +146,7 @@
 
     } else if ($acao == 'listarFornecedores') {
 
-        include 'verificarUsuarioLogado.php';
+        include 'verificarLogin.php';
 
         //criar um metodo para buscar os contatos
         $fornecedorControlador = new FornecedorController();
@@ -160,7 +164,7 @@
         }
 
     } else if ($acao == 'cadastrarCliente') {
-        include 'verificarUsuarioLogado.php';
+        include 'verificarLogin.php';
 
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
@@ -187,7 +191,7 @@
 
     } else if ($acao == 'listarClientes') {
 
-        include 'verificarUsuarioLogado.php';
+        include 'verificarLogin.php';
 
         //criar um metodo para buscar os contatos
         $clienteControlador = new ClienteController();
@@ -205,7 +209,7 @@
         }
 
     } else if ($acao == 'cadastrarVenda') {
-        include 'verificarUsuarioLogado.php';
+        include 'verificarLogin.php';
     
         $id_cliente = $_POST['id_cliente'];
         $id_usuario = $_POST['id_usuario'];
@@ -229,7 +233,7 @@
         }
 
     } else if ($acao == 'listarVendas') {
-        include 'verificarUsuarioLogado.php';
+        include 'verificarLogin.php';
 
         $vendaControlador = new VendaController();
         try {
@@ -240,7 +244,7 @@
         }
 
     } else if ($acao == 'editarVenda') {
-        include 'verificarUsuarioLogado.php';
+        include 'verificarLogin.php';
 
         $id = $_GET['id'];
         $vendaController = new VendaController();
@@ -254,7 +258,7 @@
         }
 
     } else if ($acao == 'atualizarVenda') {
-        include 'verificarUsuarioLogado.php';
+        include 'verificarLogin.php';
 
         $id = $_POST['id'];
         $data_venda = $_POST['data_venda'];
@@ -280,7 +284,7 @@
         }
 
     } else if ($acao == 'excluirVenda') {
-        include 'verificarUsuarioLogado.php';
+        include 'verificarLogin.php';
 
         $id = $_GET['id'];
         $vendaControlador = new VendaController();

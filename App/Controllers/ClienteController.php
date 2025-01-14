@@ -12,11 +12,7 @@ class ClienteController {
 
     // Método para cadastrar um cliente
     public function cadastrarCliente($cliente) {
-        try {
-
-            $conexao = new Conexao();
-            $this->conn = $conexao->getConexao();
-            
+        try {        
             $sql = "INSERT INTO Clientes (nome, email, telefone, endereco, id_usuario) 
                     VALUES (:nome, :email, :telefone, :endereco, :id_usuario)";
             $stmt = $this->conn->prepare($sql);
@@ -50,7 +46,7 @@ class ClienteController {
     // Método para listar todos os clientes
     public function listarClientes($id_usuario) {
         try {
-            $sql = "SELECT * FROM Clientes WHERE $id_usuario = :id_usuario";
+            $sql = "SELECT * FROM Clientes WHERE id_usuario = :id_usuario";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(':id_usuario', $id_usuario);
             $stmt->execute();

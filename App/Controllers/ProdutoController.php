@@ -4,6 +4,11 @@ require_once __DIR__ . '/../Models/Produto.php';
 
 class ProdutoController {
     private $conn;
+
+    public function __construct() {
+        $conexao = new Conexao();
+        $this->conn = $conexao->getConexao();
+    }
     
     // Método para cadastrar um produto
     public function cadastrarProduto($produto) {
