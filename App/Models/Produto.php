@@ -1,6 +1,7 @@
 <?php
 
 class Produto {
+    private $id;
     private $nome;
     private $preco;
     private $estoque;
@@ -8,8 +9,17 @@ class Produto {
     private $id_fornecedor;
     private $id_categoria;
     private $codigo_barras;
+    private $id_usuario;
 
     // Métodos Setters
+    public function setId($id) {
+        $this->id = $id;
+    }
+
+    public function setId_Usuario($id_usuario) {
+        $this->id_usuario = $id_usuario;
+    }
+
     public function setNome($nome) {
         $this->nome = $nome;
     }
@@ -39,6 +49,14 @@ class Produto {
     }
 
     // Métodos Getters
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getId_Usuario() {
+        return $this->id_usuario;
+    }
+
     public function getNome() {
         return $this->nome;
     }

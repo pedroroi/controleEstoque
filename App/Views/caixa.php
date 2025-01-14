@@ -1,12 +1,3 @@
-<?php
-    include 'verificarUsuarioLogado.php';
-    require_once '../Controllers/VendaController.php';
-
-    // Obtem todas as vendas para listagem
-    $vendaController = new VendaController();
-    $vendas = $vendaController->listarVendas();
-?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -23,9 +14,6 @@
     <form action="/controleEstoque/App/Controllers/rota.php?acao=cadastrarVenda" method="POST">
         <label for="id_cliente">Cliente:</label>
         <input type="number" id="id_cliente" name="id_cliente" required>
-
-        <label for="data_venda">Data da Venda:</label>
-        <input type="date" id="data_venda" name="data_venda" required>
 
         <label for="valor_total">Valor Total (R$):</label>
         <input type="text" id="valor_total" name="valor_total" required>

@@ -19,16 +19,16 @@ require_once '../Controllers/verificarLogin.php';
     <section class="iconesMenu">
         <ul>
             <li>
-              <a href="/controleEstoque/App/Views/caixa.php">Caixa</a>
+                <a href="../Controllers/rota.php?acao=cadastrarProduto">Cadastrar Produto</a>
             </li>
             <li>
-              <a href="/controleEstoque/App/Views/vendas.php">Vendas</a>
+                <a href="../Controllers/rota.php?acao=cadastrarCliente">Cadastrar Cliente</a>
             </li>
             <li>
-                <a href="/controleEstoque/App/Views/cadastroProduto.php">Cadastrar Produto</a>
+                <a href="../Controllers/rota.php?acao=cadastrarCategoria">Cadastrar Categoria</a>
             </li>
             <li>
-                <a href="../rota.php?acao=cadastrarFornecedor">Cadastrar Fornecedor</a>
+                <a href="../Controllers/rota.php?acao=cadastrarFornecedor">Cadastrar Fornecedor</a>
             </li>
         </ul>
     </section>

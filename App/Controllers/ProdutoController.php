@@ -10,8 +10,8 @@ class ProdutoController {
         $conexao = new Conexao(); // Instancia a conexão
         $this->conn = $conexao->getConexao(); // Atribui à propriedade $conn
 
-        $sql = "INSERT INTO Produtos (nome, preco, estoque, unidade, id_fornecedor, id_categoria, codigo_barras) 
-                VALUES (:nome, :preco, :estoque, :unidade, :id_fornecedor, :id_categoria, :codigo_barras)";
+        $sql = "INSERT INTO Produtos (nome, preco, estoque, unidade, id_fornecedor, id_categoria, codigo_barras, id_usuario) 
+                VALUES (:nome, :preco, :estoque, :unidade, :id_fornecedor, :id_categoria, :codigo_barras, :id_usuario)";
         
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':nome', $produto->getNome());
@@ -21,6 +21,7 @@ class ProdutoController {
         $stmt->bindValue(':id_fornecedor', $produto->getIdFornecedor());
         $stmt->bindValue(':id_categoria', $produto->getIdCategoria());
         $stmt->bindValue(':codigo_barras', $produto->getCodigoBarras());
+        $stmt->bindValue(':id_usuario', $produto->getIdUsuario());
 
         return $stmt->execute();
     }
@@ -36,11 +37,35 @@ class ProdutoController {
     }
 
     // Método para listar todos os produtos
-    public function listarProdutos() {
-        $sql = "SELECT * FROM Produtos";
-        $stmt = $this->conn->query($sql);
+    public function listarProdutos($id_usuario) {
+        try {
+            $sql = "SELECT * FROM Produtos WHERE id_usuario = :id_usuario";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':id_usuario', $id_usuario);
+            $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $lista_produtos = [];
+
+            foreach ($resultado as $linha) {
+                
+                $produto = new Produto();
+                $produto->setId($linha['id']);
+                $produto->setNome($linha['nome']);
+                $produto->setPreco($linha['preco']);
+                $produto->setEstoque($linha['estoque']);
+                $produto->setCodigoBarras($linha['codigo_barras']);
+                $produto->setId_usuario($linha['id_usuario']);
+
+                $lista_produtos[] = $produto;
+            }
+
+            return $lista_produtos;
+            
+        } catch (Exception $erro) {
+            throw $erro;
+        }
     }
 
     // Método para atualizar um produto

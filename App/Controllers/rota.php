@@ -1,11 +1,19 @@
 <?php
     require_once 'UsuarioController.php';
     require_once 'ProdutoController.php';
+    require_once 'ClienteController.php';
+    require_once 'EstoqueController.php';
+    require_once 'FornecedorController.php';
+    require_once 'CategoriaController.php';
     require_once 'VendaController.php';
     require_once 'LoginController.php';
     require_once __DIR__ . '/../Models/Usuario.php';
     require_once __DIR__ . '/../Models/Produto.php';
     require_once __DIR__ . '/../Models/Venda.php';
+    require_once __DIR__ . '/../Models/Cliente.php';
+    require_once __DIR__ . '/../Models/Estoque.php';
+    require_once __DIR__ . '/../Models/Categoria.php';
+    require_once __DIR__ . '/../Models/Fornecedor.php';
 
     $acao = $_GET['acao'];
 
@@ -29,48 +37,204 @@
 
     } else if ($acao == 'cadastrarProduto') {
         include 'verificarUsuarioLogado.php';
+    
+        $fornecedorControlador = new FornecedorController();
+        $categoriaControlador = new CategoriaController();
+        try {
+            session_start();
+            $id_usuario = $_SESSION['id_usuario'];
+    
+            $lista_fornecedores = $fornecedorControlador->listarFornecedores($id_usuario);
+            $lista_categorias = $categoriaControlador->listarCategorias($id_usuario);
+            $_SESSION['fornecedores'] = $lista_fornecedores;
+            $_SESSION['categorias'] = $lista_categorias;
+        } catch (Exception $erro) {
+            echo $erro->getMessage();
+        }
+    
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Processar o cadastro do produto
+            $nome = $_POST['nome'];
+            $preco = $_POST['preco'];
+            $estoque = $_POST['estoque'];
+            $unidade = $_POST['unidade'];
+            $codigo_barras = $_POST['codigo_barras'];
+            $id_fornecedor = $_POST['id_fornecedor'];
+            $id_categoria = $_POST['id_categoria'];
+    
+            $produto = new Produto();
+            $produto->setNome($nome);
+            $produto->setPreco($preco);
+            $produto->setEstoque($estoque);
+            $produto->setUnidade($unidade);
+            $produto->setCodigoBarras($codigo_barras);
+            $produto->setIdFornecedor($id_fornecedor);
+            $produto->setIdCategoria($id_categoria);
+    
+            $produtoControlador = new ProdutoController();
+            try {
+                $produtoControlador->cadastrarProduto($produto);
+                header('Location: ../Views/dashboard.php');
+            } catch (Exception $erro) {
+                echo $erro->getMessage();
+            }
+        } else {
+            // Exibir o formulário de cadastro de produtos
+            include '../Views/cadastroProduto.php';
+        }
 
-        $nome = $_POST['nome'];
-        $preco = $_POST['preco'];
-        $estoque = $_POST['estoque'];
-        $unidade = $_POST['unidade'];
-        $codigo_barras = $_POST['codigo_barras'];
 
-        $produto = new Produto();
-        $produto->setNome($nome);
-        $produto->setPreco($preco);
-        $produto->setEstoque($estoque);
-        $produto->setUnidade($unidade);
-        $produto->setCodigoBarras($codigo_barras);
-
+    } else if ($acao == 'listarProdutos') {
+        include 'verificarUsuarioLogado.php';
+    
         $produtoControlador = new ProdutoController();
         try {
-            $produtoControlador->cadastrarProduto($produto);
-            header('Location: Views/dashboard.php');
+            session_start();
+            $id_usuario = $_SESSION['id_usuario'];
+    
+            $lista_produtos = $produtoControlador->listarProdutos($id_usuario);
+            $_SESSION['produtos'] = $lista_produtos; // Corrigido para usar a variável correta
+            // Redireciona para uma página de listagem com os dados dos produtos
+            header('Location: ../Views/listaProdutos.php');
         } catch (Exception $erro) {
+            echo $erro->getMessage();
+        }
+
+    } else if ($acao == 'cadastrarCategoria') {
+        $nome = $_POST['nome'];
+    
+        $categoria = new Categoria();
+        $categoria->setNome($nome);
+    
+        $categoriaControlador = new CategoriaController();
+        try {
+            $categoriaControlador->cadastrarCategoria($categoria);
+            header('Location: ../Views/dashboard.php');
+        } catch (Exception $erro) {
+            echo $erro->getMessage();
+        }
+
+    } else if ($acao == 'cadastrarFornecedor') {
+        session_start();
+        $id_usuario = $_SESSION['id_usuario'];
+        
+        $nome = $_POST['nome'];
+        $telefone = $_POST['telefone'];
+        $email = $_POST['email'];
+        $endereco = $_POST['endereco'];
+        $cnpj = $_POST['cnpj'];
+    
+        $fornecedor = new Fornecedor();
+        $fornecedor->setNome($nome);
+        $fornecedor->setTelefone($telefone);
+        $fornecedor->setEmail($email);
+        $fornecedor->setEndereco($endereco);
+        $fornecedor->setCnpj($cnpj);
+        $fornecedor->setId_usuario($id_usuario);
+    
+        $fornecedorControlador = new FornecedorController();
+        try {
+            $fornecedorControlador->cadastrarFornecedor($fornecedor);
+            header('Location: ../Views/dashboard.php');
+        } catch (Exception $erro) {
+            echo $erro->getMessage();
+        }
+
+    } else if ($acao == 'listarFornecedores') {
+
+        include 'verificarUsuarioLogado.php';
+
+        //criar um metodo para buscar os contatos
+        $fornecedorControlador = new FornecedorController();
+        try{
+            session_start();
+            $id_usuario = $_SESSION['id_usuario'];
+
+            $lista_fornecedores = $fornecedorControlador->listarFornecedores($id_usuario);
+            $_SESSION['fornecedores'] = $lista_fornecedores;
+            // Redireciona para uma página de listagem com os dados dos clientes
+            header('Location: ../Views/listaFornecedores.php');
+        }catch(Exception $erro){
+            //tratar erro
+            echo $erro->getMessage();
+        }
+
+    } else if ($acao == 'cadastrarCliente') {
+        include 'verificarUsuarioLogado.php';
+
+        session_start();
+        $id_usuario = $_SESSION['id_usuario'];
+
+        $nome = $_POST['nome'];
+        $email = $_POST['email'];
+        $telefone = $_POST['telefone'];
+        $endereco = $_POST['endereco'];
+    
+        $cliente = new Cliente();
+        $cliente->setNome($nome);
+        $cliente->setEmail($email);
+        $cliente->setTelefone($telefone);
+        $cliente->setEndereco($endereco);   
+        $cliente->setId_usuario($id_usuario);
+    
+        $clienteControlador = new ClienteController();
+        try {
+            $clienteControlador->cadastrarCliente($cliente);
+            header('Location: ../Views/dashboard.php');
+        } catch (Exception $erro) {
+            echo $erro->getMessage();
+        }
+
+    } else if ($acao == 'listarClientes') {
+
+        include 'verificarUsuarioLogado.php';
+
+        //criar um metodo para buscar os contatos
+        $clienteControlador = new ClienteController();
+        try{
+            session_start();
+            $id_usuario = $_SESSION['id_usuario'];
+
+            $lista_clientes = $clienteControlador->listarClientes($id_usuario);
+            $_SESSION['clientes'] = $lista_clientes;
+            // Redireciona para uma página de listagem com os dados dos clientes
+            header('Location: ../Views/listaClientes.php');
+        }catch(Exception $erro){
+            //tratar erro
             echo $erro->getMessage();
         }
 
     } else if ($acao == 'cadastrarVenda') {
         include 'verificarUsuarioLogado.php';
-
-        $data_venda = $_POST['data_venda'];
+    
+        $id_cliente = $_POST['id_cliente'];
+        $id_usuario = $_POST['id_usuario'];
         $valor_total = $_POST['valor_total'];
         $forma_pagamento = $_POST['forma_pagamento'];
-        $id_usuario = $_POST['id_usuario'];
         $status = $_POST['status'];
 
         $venda = new Venda();
-        $venda->setDataVenda($data_venda);
+        $venda->setIdCliente($id_cliente);
+        $venda->setIdUsuario($id_usuario);
         $venda->setValorTotal($valor_total);
         $venda->setFormaPagamento($forma_pagamento);
-        $venda->setIdUsuario($id_usuario);
         $venda->setStatus($status);
 
         $vendaControlador = new VendaController();
         try {
             $vendaControlador->cadastrarVenda($venda);
-            header('Location: ../views/dashboard.php');
+            header('Location: ../Views/dashboard.php');
+        } catch (Exception $erro) {
+            echo $erro->getMessage();
+        }
+
+    } else if ($acao == 'listarVendas') {
+        include 'verificarUsuarioLogado.php';
+
+        $vendaControlador = new VendaController();
+        try {
+            $vendas = $vendaControlador->listarVendas();
+            header('Location: ../Views/vendas.php');
         } catch (Exception $erro) {
             echo $erro->getMessage();
         }
@@ -147,6 +311,6 @@
         include 'logout.php';
 
     } else {
-        header('Location: index.php');
+        header('Location: ../../index.php');
     }
 ?>

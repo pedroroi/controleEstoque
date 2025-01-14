@@ -1,61 +1,52 @@
-<?php
-    include 'verificarUsuarioLogado.php';
-    require_once '../Controllers/VendaController.php';
-
-    // Obtem todas as vendas para listagem
-    $vendaController = new VendaController();
-    $vendas = $vendaController->listarVendas();
-?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão de Vendas</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Listagem de Vendas</title>
 </head>
 <body>
 
     <?php include '../../includes/header.php'; ?>
 
     <h2>Listagem de Vendas</h2>
-            <?php if (!empty($vendas)): ?>
-                <table border="1">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Cliente</th>
-                            <th>Data</th>
-                            <th>Valor Total</th>
-                            <th>Forma de Pagamento</th>
-                            <th>Funcionário</th>
-                            <th>Status</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($vendas as $venda): ?>
-                            <tr>
-                                <td><?= $venda['id'] ?></td>
-                                <td><?= $venda['id_cliente'] ?></td>
-                                <td><?= $venda['data_venda'] ?></td>
-                                <td>R$ <?= number_format($venda['valor_total'], 2, ',', '.') ?></td>
-                                <td><?= $venda['forma_pagamento'] ?></td>
-                                <td><?= $venda['id_funcionario'] ?></td>
-                                <td><?= $venda['status'] ?></td>
-                                <td>
-                                    <a href="../rota.php?acao=editarVenda&id=<?= $venda['id'] ?>">Editar</a> |
-                                    <a href="../rota.php?acao=excluirVenda&id=<?= $venda['id'] ?>" onclick="return confirm('Tem certeza que deseja excluir esta venda?')">Excluir</a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            <?php else: ?>
-                <p>Nenhuma venda cadastrada.</p>
-            <?php endif; ?>
-    
-            <?php include '../../includes/footer.php'; ?>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Usuário</th>
+                <th>Data da Venda</th>
+                <th>Valor Total</th>
+                <th>Forma de Pagamento</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            require_once __DIR__ . '/../Controllers/VendaController.php';
+            $vendaControlador = new VendaController();
+            try {
+                $vendas = $vendaControlador->listarVendas();
+                foreach ($vendas as $venda) {
+                    echo "<tr>";
+                    echo "<td>" . $venda['id'] . "</td>";
+                    echo "<td>" . $venda['id_cliente'] . "</td>";
+                    echo "<td>" . $venda['id_usuario'] . "</td>";
+                    echo "<td>" . $venda['data_venda'] . "</td>";
+                    echo "<td>" . $venda['valor_total'] . "</td>";
+                    echo "<td>" . $venda['forma_pagamento'] . "</td>";
+                    echo "<td>" . $venda['status'] . "</td>";
+                    echo "</tr>";
+                }
+            } catch (Exception $erro) {
+                echo "<tr><td colspan='7'>" . $erro->getMessage() . "</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+
+    <?php include '../../includes/footer.php'; ?>
+
 </body>
 </html>
