@@ -10,13 +10,15 @@ class Produto {
     private $id_categoria;
     private $codigo_barras;
     private $id_usuario;
+    private $fornecedor;
+    private $categoria;
 
     // Métodos Setters
     public function setId($id) {
         $this->id = $id;
     }
 
-    public function setId_Usuario($id_usuario) {
+    public function setId_usuario($id_usuario) {
         $this->id_usuario = $id_usuario;
     }
 
@@ -53,7 +55,7 @@ class Produto {
         return $this->id;
     }
 
-    public function getId_Usuario() {
+    public function getId_usuario() {
         return $this->id_usuario;
     }
 

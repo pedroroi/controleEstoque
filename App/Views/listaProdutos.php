@@ -24,8 +24,8 @@
             echo "<td> {$produto->getEstoque()} </td>";
             echo "<td> {$produto->getUnidade()} </td>";
             echo "<td> {$produto->getCodigoBarras()}</td>";
-            echo "<td> {$produto->getFornecedor()}</td>";
-            echo "<td> {$produto->getCategoria()}</td>";
+            echo "<td> {$produto->getIdFornecedor()}</td>";
+            echo "<td> {$produto->getIdCategoria()}</td>";
             echo "</tr>";
         }
         echo "</table>";

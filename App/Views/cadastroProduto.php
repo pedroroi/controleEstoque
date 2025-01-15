@@ -19,7 +19,7 @@ $fornecedores = isset($_SESSION['fornecedores']) ? $_SESSION['fornecedores'] : [
 </head>
 <body>
     <div class="caixaMaior">
-        <form action="../rota.php?acao=cadastroProduto" method="POST">
+        <form action="../Controllers/rota.php?acao=cadastrarProduto" method="POST">
             <label for="nome">Nome do Produto</label>
             <input type="text" id="nome" name="nome" required>
             <br>

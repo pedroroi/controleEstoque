@@ -24,7 +24,7 @@ class ProdutoController {
         $stmt->bindValue(':id_fornecedor', $produto->getIdFornecedor());
         $stmt->bindValue(':id_categoria', $produto->getIdCategoria());
         $stmt->bindValue(':codigo_barras', $produto->getCodigoBarras());
-        $stmt->bindValue(':id_usuario', $produto->getIdUsuario());
+        $stmt->bindValue(':id_usuario', $produto->getId_usuario());
 
         $stmt->execute();
     }
@@ -59,6 +59,9 @@ class ProdutoController {
                 $produto->setPreco($linha['preco']);
                 $produto->setEstoque($linha['estoque']);
                 $produto->setCodigoBarras($linha['codigo_barras']);
+                $produto->setUnidade($linha['unidade']);
+                $produto->setIdFornecedor($linha['id_fornecedor']);
+                $produto->setIdCategoria($linha['id_categoria']);
                 $produto->setId_usuario($linha['id_usuario']);
 
                 $lista_produtos[] = $produto;

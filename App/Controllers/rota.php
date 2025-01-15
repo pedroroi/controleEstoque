@@ -87,7 +87,8 @@
         $produtoControlador = new ProdutoController();
         try {
             $produtoControlador->cadastrarProduto($produto);
-            header('Location: ../Views/dashboard.php');
+            //header('Location: ../Views/dashboard.php');
+            var_dump($produto);
         } catch (Exception $erro) {
             echo $erro->getMessage();
         }

@@ -13,15 +13,27 @@ class CategoriaController {
     // Método para cadastrar uma categoria
     public function cadastrarCategoria($categoria) {
         try {
+            // Verificar se a categoria já existe para o usuário
+            $sql = "SELECT COUNT(*) FROM Categorias WHERE nome = :nome AND id_usuario = :id_usuario";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':nome', $categoria->getNome());
+            $stmt->bindValue(':id_usuario', $categoria->getId_usuario());
+            $stmt->execute();
+            $count = $stmt->fetchColumn();
+    
+            if ($count > 0) {
+                throw new Exception("Categoria já existe para este usuário.");
+            }
+    
+            // Inserir a nova categoria
             $sql = "INSERT INTO Categorias (nome, id_usuario) VALUES (:nome, :id_usuario)";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(':nome', $categoria->getNome());
-            $stmt->bindValue(':id_usuario', $categoria->getId_Usuario());
+            $stmt->bindValue(':id_usuario', $categoria->getId_usuario());
             $stmt->execute();
-
-            $this->conn = null;
+    
         } catch (Exception $erro) {
-            throw $erro;
+            throw new Exception("Erro ao cadastrar categoria: " . $erro->getMessage());
         }
     }
 
