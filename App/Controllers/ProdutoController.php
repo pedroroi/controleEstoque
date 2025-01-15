@@ -12,9 +12,7 @@ class ProdutoController {
     
     // Método para cadastrar um produto
     public function cadastrarProduto($produto) {
-        $conexao = new Conexao(); // Instancia a conexão
-        $this->conn = $conexao->getConexao(); // Atribui à propriedade $conn
-
+        
         $sql = "INSERT INTO Produtos (nome, preco, estoque, unidade, id_fornecedor, id_categoria, codigo_barras, id_usuario) 
                 VALUES (:nome, :preco, :estoque, :unidade, :id_fornecedor, :id_categoria, :codigo_barras, :id_usuario)";
         
@@ -28,7 +26,7 @@ class ProdutoController {
         $stmt->bindValue(':codigo_barras', $produto->getCodigoBarras());
         $stmt->bindValue(':id_usuario', $produto->getIdUsuario());
 
-        return $stmt->execute();
+        $stmt->execute();
     }
 
     // Método para buscar produto pelo código de barras

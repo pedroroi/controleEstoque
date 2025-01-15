@@ -13,8 +13,6 @@ class VendaController {
     // Método para cadastrar uma nova venda
     public function cadastrarVenda($venda) {
         try {
-            $conexao = new Conexao();
-            $this->conn = $conexao->getConexao();
 
             $sql = "INSERT INTO Vendas (id_cliente, id_usuario, data_venda, valor_total, forma_pagamento, status) 
                     VALUES (:id_cliente, :id_usuario, :data_venda, :valor_total, :forma_pagamento, :status)";
@@ -27,7 +25,7 @@ class VendaController {
             $stmt->bindValue(':status', $venda->getStatus());
             $stmt->execute();
 
-            $conexao->fechar();
+            $this->conn = null;
         } catch (Exception $erro) {
             throw new Exception("Erro ao cadastrar venda: " . $erro->getMessage());
         }

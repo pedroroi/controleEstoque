@@ -7,5 +7,6 @@
         <li><a href="../Controllers/rota.php?acao=listarFornecedores">Fornecedores</a></li>
         <li><a href="../Controllers/rota.php?acao=listarProdutos">Produtos</a></li>
         <li><a href="../Controllers/rota.php?acao=listarClientes">Clientes</a></li>
+        <li><a href="../Controllers/rota.php?acao=listarCategorias">Categorias</a></li>
     </ul>
 </footer>

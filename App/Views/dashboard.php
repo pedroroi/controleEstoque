@@ -22,13 +22,13 @@ require_once '../Controllers/verificarLogin.php';
                 <a href="../Controllers/rota.php?acao=exibeCadastroProduto">Cadastrar Produto</a>
             </li>
             <li>
-                <a href="../Controllers/rota.php?acao=cadastrarCliente">Cadastrar Cliente</a>
+                <a href="../Views/cadastroFornecedor.php">Cadastrar Cliente</a>
             </li>
             <li>
-                <a href="../Controllers/rota.php?acao=cadastrarCategoria">Cadastrar Categoria</a>
+                <a href="../Views/cadastroCategoria.php">Cadastrar Categoria</a>
             </li>
             <li>
-                <a href="../Controllers/rota.php?acao=cadastrarFornecedor">Cadastrar Fornecedor</a>
+                <a href="../Views/cadastroFornecedor.php">Cadastrar Fornecedor</a>
             </li>
         </ul>
     </section>

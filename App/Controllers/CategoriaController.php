@@ -13,12 +13,13 @@ class CategoriaController {
     // Método para cadastrar uma categoria
     public function cadastrarCategoria($categoria) {
         try {
-            $sql = "INSERT INTO Categorias (nome) VALUES (:nome)";
+            $sql = "INSERT INTO Categorias (nome, id_usuario) VALUES (:nome, :id_usuario)";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(':nome', $categoria->getNome());
+            $stmt->bindValue(':id_usuario', $categoria->getId_Usuario());
             $stmt->execute();
 
-            $conexao->fechar();
+            $this->conn = null;
         } catch (Exception $erro) {
             throw $erro;
         }
@@ -39,14 +40,31 @@ class CategoriaController {
     }
 
     // Método para listar todas as categorias
-    public function listarCategorias() {
+    public function listarCategorias($id_usuario) {
         try {
-            $sql = "SELECT * FROM Categorias";
-            $stmt = $this->conn->query($sql);
+            $sql = "SELECT * FROM Categorias WHERE id_usuario = :id_usuario";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':id_usuario', $id_usuario);
+            $stmt->execute();
 
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $lista_categorias = [];
+
+            foreach ($resultado as $linha) {
+                
+                $categoria = new Categoria();
+                $categoria->setId($linha['id']);
+                $categoria->setNome($linha['nome']);
+                $categoria->setId_usuario($linha['id_usuario']);
+
+                $lista_categorias[] = $categoria;
+            }
+
+            return $lista_categorias;
+
         } catch (Exception $erro) {
-            throw $erro;
+            throw new Exception("Erro ao listar categorias: " . $erro->getMessage());
         }
     }
 

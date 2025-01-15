@@ -23,7 +23,7 @@ class ClienteController {
             $stmt->bindValue(':id_usuario', $cliente->getId_Usuario());
             $stmt->execute();
 
-            $conexao->fechar();
+            $this->conn = null;
         } catch (Exception $erro) {
             throw new Exception("Erro ao cadastrar cliente: " . $erro->getMessage());
         }

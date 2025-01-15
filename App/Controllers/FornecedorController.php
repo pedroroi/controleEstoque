@@ -13,9 +13,6 @@ class FornecedorController {
     // Método para cadastrar um fornecedor
     public function cadastrarFornecedor($fornecedor) {
         try {
-            $conexao = new Conexao();
-            $this->conn = $conexao->getConexao();
-            
             $sql = "INSERT INTO Fornecedores (nome, telefone, email, endereco, cnpj, id_usuario) 
                     VALUES (:nome, :telefone, :email, :endereco, :cnpj, :id_usuario)";
             $stmt = $this->conn->prepare($sql);
@@ -27,7 +24,7 @@ class FornecedorController {
             $stmt->bindValue(':id_usuario', $fornecedor->getId_usuario());
             $stmt->execute();
 
-            $conexao->fechar();
+            $this->conn = null;
         } catch (Exception $erro) {
             throw $erro;
         }

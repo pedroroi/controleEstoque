@@ -48,6 +48,11 @@
             $categorias = $categoriaControlador->listarCategorias($id_usuario);
             $_SESSION['fornecedores'] = $fornecedores;
             $_SESSION['categorias'] = $categorias;
+
+            // Depuração
+            //var_dump($_SESSION['fornecedores']);
+            //var_dump($_SESSION['categorias']);
+
             // Redireciona para uma página de cadastro de produto
             header('Location: ../Views/cadastroProduto.php');
         } catch (Exception $erro) {
@@ -58,35 +63,34 @@
     } else if ($acao == 'cadastrarProduto') {
         include 'verificarLogin.php';
 
-            session_start();
-            $id_usuario = $_SESSION['id_usuario'];
-    
-            $nome = $_POST['nome'];
-            $preco = $_POST['preco'];
-            $estoque = $_POST['estoque'];
-            $unidade = $_POST['unidade'];
-            $codigo_barras = $_POST['codigo_barras'];
-            $id_fornecedor = $_POST['id_fornecedor'];
-            $id_categoria = $_POST['id_categoria'];
-    
-            $produto = new Produto();
-            $produto->setNome($nome);
-            $produto->setPreco($preco);
-            $produto->setEstoque($estoque);
-            $produto->setUnidade($unidade);
-            $produto->setCodigoBarras($codigo_barras);
-            $produto->setIdFornecedor($id_fornecedor);
-            $produto->setIdCategoria($id_categoria);
-            $produto->setId_usuario($id_usuario);
-    
-            $produtoControlador = new ProdutoController();
-            try {
-                $produtoControlador->cadastrarProduto($produto);
-                header('Location: ../Views/dashboard.php');
-            } catch (Exception $erro) {
-                echo $erro->getMessage();
-            }
+        session_start();
+        $id_usuario = $_SESSION['id_usuario'];
 
+        $nome = $_POST['nome'];
+        $preco = $_POST['preco'];
+        $estoque = $_POST['estoque'];
+        $unidade = $_POST['unidade'];
+        $codigo_barras = $_POST['codigo_barras'];
+        $id_fornecedor = $_POST['id_fornecedor'];
+        $id_categoria = $_POST['id_categoria'];
+
+        $produto = new Produto();
+        $produto->setNome($nome);
+        $produto->setPreco($preco);
+        $produto->setEstoque($estoque);
+        $produto->setUnidade($unidade);
+        $produto->setCodigoBarras($codigo_barras);
+        $produto->setIdFornecedor($id_fornecedor);
+        $produto->setIdCategoria($id_categoria);
+        $produto->setId_usuario($id_usuario);
+
+        $produtoControlador = new ProdutoController();
+        try {
+            $produtoControlador->cadastrarProduto($produto);
+            header('Location: ../Views/dashboard.php');
+        } catch (Exception $erro) {
+            echo $erro->getMessage();
+        }
 
     } else if ($acao == 'listarProdutos') {
         include 'verificarLogin.php';
@@ -105,10 +109,16 @@
         }
 
     } else if ($acao == 'cadastrarCategoria') {
+        include 'verificarLogin.php';
+
+        session_start();
+        $id_usuario = $_SESSION['id_usuario'];
+        
         $nome = $_POST['nome'];
     
         $categoria = new Categoria();
         $categoria->setNome($nome);
+        $categoria->setId_usuario($id_usuario);
     
         $categoriaControlador = new CategoriaController();
         try {
@@ -118,7 +128,25 @@
             echo $erro->getMessage();
         }
 
+    } else if ($acao == 'listarCategorias') {
+        include 'verificarLogin.php';
+    
+        $categoriaControlador = new CategoriaController();
+        try {
+            session_start();
+            $id_usuario = $_SESSION['id_usuario'];
+    
+            $lista_categorias = $categoriaControlador->listarCategorias($id_usuario);
+            $_SESSION['categorias'] = $lista_categorias; // Corrigido para usar a variável correta
+            // Redireciona para uma página de listagem com os dados dos produtos
+            header('Location: ../Views/listaCategorias.php');
+        } catch (Exception $erro) {
+            echo $erro->getMessage();
+        }
+
     } else if ($acao == 'cadastrarFornecedor') {
+        include 'verificarLogin.php';
+        
         session_start();
         $id_usuario = $_SESSION['id_usuario'];
         

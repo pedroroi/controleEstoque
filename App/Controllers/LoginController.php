@@ -4,11 +4,14 @@
     class LoginController {     
         private $conn;
 
+        public function __construct() {
+            $conexao = new Conexao();
+            $this->conn = $conexao->getConexao();
+        }
+
         //Método para autenticar um login
         public function autenticar($usuario) {
             try {
-                $conexao = new Conexao(); // Instancia a conexão
-                $this->conn = $conexao->getConexao(); // Atribui à propriedade $conn
                 
                 // Busca a senha hash do usuário no banco de dados
                 $sql_busca_usuario = "SELECT * FROM Usuarios WHERE usuario = :usuario";
