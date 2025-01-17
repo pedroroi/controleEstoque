@@ -40,7 +40,7 @@ class ProdutoController {
     }
 
     // Método para listar todos os produtos
-    public function listarProdutos($id_usuario) {
+    /*public function listarProdutos($id_usuario) {
         try {
             $sql = "SELECT * FROM Produtos WHERE id_usuario = :id_usuario";
             $stmt = $this->conn->prepare($sql);
@@ -69,6 +69,54 @@ class ProdutoController {
 
             return $lista_produtos;
             
+        } catch (Exception $erro) {
+            throw $erro;
+        }
+    }*/
+
+    // Método para listar todos os produtos
+    public function listarProdutos($id_usuario) {
+        try {
+            $sql = "SELECT p.*, f.nome AS nome_fornecedor, c.nome AS nome_categoria 
+                    FROM Produtos p
+                    JOIN Fornecedores f ON p.id_fornecedor = f.id
+                    JOIN Categorias c ON p.id_categoria = c.id
+                    WHERE p.id_usuario = :id_usuario";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':id_usuario', $id_usuario);
+            $stmt->execute();
+
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $lista_produtos = [];
+
+            foreach ($resultado as $linha) {
+                $produto = new Produto();
+                $produto->setId($linha['id']);
+                $produto->setNome($linha['nome']);
+                $produto->setPreco($linha['preco']);
+                $produto->setEstoque($linha['estoque']);
+                $produto->setUnidade($linha['unidade']);
+                $produto->setIdFornecedor($linha['id_fornecedor']);
+                $produto->setIdCategoria($linha['id_categoria']);
+                $produto->setCodigoBarras($linha['codigo_barras']);
+                $produto->setId_usuario($linha['id_usuario']);
+
+                // Criar objetos Fornecedor e Categoria
+                $fornecedor = new Fornecedor();
+                $fornecedor->setNome($linha['nome_fornecedor']);
+
+                $categoria = new Categoria();
+                $categoria->setNome($linha['nome_categoria']);
+
+                // Associar os objetos ao produto
+                $produto->setFornecedor($fornecedor);
+                $produto->setCategoria($categoria);
+
+                $lista_produtos[] = $produto;
+            }
+
+            return $lista_produtos;
         } catch (Exception $erro) {
             throw $erro;
         }

@@ -18,10 +18,6 @@ class Produto {
         $this->id = $id;
     }
 
-    public function setId_usuario($id_usuario) {
-        $this->id_usuario = $id_usuario;
-    }
-
     public function setNome($nome) {
         $this->nome = $nome;
     }
@@ -50,13 +46,21 @@ class Produto {
         $this->codigo_barras = $codigo_barras;
     }
 
+    public function setFornecedor($fornecedor) {
+        $this->fornecedor = $fornecedor;
+    }
+
+    public function setCategoria($categoria) {
+        $this->categoria = $categoria;
+    }
+    
+    public function setId_usuario($id_usuario) {
+        $this->id_usuario = $id_usuario;
+    }
+
     // Métodos Getters
     public function getId() {
         return $this->id;
-    }
-
-    public function getId_usuario() {
-        return $this->id_usuario;
     }
 
     public function getNome() {
@@ -85,6 +89,18 @@ class Produto {
 
     public function getCodigoBarras() {
         return $this->codigo_barras;
+    }
+
+    public function getFornecedor() {
+        return $this->fornecedor;
+    }
+
+    public function getCategoria() {
+        return $this->categoria;
+    }
+
+    public function getId_usuario() {
+        return $this->id_usuario;
     }
 }
 ?>
