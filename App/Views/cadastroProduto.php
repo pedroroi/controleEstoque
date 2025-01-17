@@ -14,11 +14,12 @@ $fornecedores = isset($_SESSION['fornecedores']) ? $_SESSION['fornecedores'] : [
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../../CSS/styleListar.css">
     <title>Cadastro de Produto</title>
 </head>
 <body>
-    <div class="caixaMaior">
+    <?php include '../../includes/header.php'; ?> <!-- Incluindo o header -->
+    <div class="container">
         <form action="../Controllers/rota.php?acao=cadastrarProduto" method="POST">
             <label for="nome">Nome do Produto</label>
             <input type="text" id="nome" name="nome" required>
@@ -60,6 +61,7 @@ $fornecedores = isset($_SESSION['fornecedores']) ? $_SESSION['fornecedores'] : [
             <br>
             <button type="submit">Cadastrar Produto</button>
         </form>
+        <?php include '../../includes/footer.php'; ?> <!-- Incluindo o footer -->
     </div>
 </body>
 </html>

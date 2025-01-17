@@ -2,7 +2,7 @@
 <section class="navbarSuperior">
         <ul>
             <li>
-              <a href="#">Início</a>
+              <a href="../Views/dashboard.php">Início</a>
             </li>
             <li>
               <a href="#">Loja</a>

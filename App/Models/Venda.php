@@ -1,6 +1,7 @@
 <?php
 
 class Venda {
+    private $id;
     private $id_cliente;
     private $id_usuario;
     private $data_venda;
@@ -9,11 +10,15 @@ class Venda {
     private $status;
 
     // Métodos Setters
+    public function setId($id) {
+        $this->id = $id;
+    }
+
     public function setIdCliente($id_cliente) {
         $this->id_cliente = $id_cliente;
     }
 
-    public function setIdUsuario($id_usuario) {
+    public function setId_usuario($id_usuario) {
         $this->id_usuario = $id_usuario;
     }
 
@@ -34,11 +39,15 @@ class Venda {
     }
 
     // Métodos Getters
+    public function getId() {
+        return $this->id;
+    }
+
     public function getIdCliente() {
         return $this->id_cliente;
     }
 
-    public function getIdUsuario() {
+    public function getId_usuario() {
         return $this->id_usuario;
     }
 

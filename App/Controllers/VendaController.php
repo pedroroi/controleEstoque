@@ -32,12 +32,36 @@ class VendaController {
     }
 
     // Método para listar todas as vendas
-    public function listarVendas() {
+    public function listarVendas($id_usuario) {
         try {
-            $sql = "SELECT * FROM Vendas";
-            $stmt = $this->conn->query($sql);
+            $sql = "SELECT * FROM Vendas WHERE id_usuario = :id_usuario";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':id_usuario', $id_usuario);
+            $stmt->execute();
 
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $lista_vendas = [];
+
+            foreach ($resultado as $linha) {
+                
+                $venda = new venda();
+                $venda->setId($linha['id']);
+                $venda->setIdCliente($linha['id_cliente']);
+                $venda->setDataVenda($linha['data_venda']);
+                $venda->setValorTotal($linha['valor_total']);
+                $venda->setFormaPagamento($linha['forma_pagamento']);
+                $venda->setStatus($linha['status']);
+                $venda->setId_usuario($linha['id_usuario']);
+
+                // Formatar a data para o padrão brasileiro ao exibir
+                $dataVenda = DateTime::createFromFormat('Y-m-d H:i:s', $linha['data_venda']);
+                $venda->setDataVenda($dataVenda->format('d/m/Y H:i:s'));
+
+                $lista_vendas[] = $venda;
+            }
+
+            return $lista_vendas;
         } catch (Exception $erro) {
             throw new Exception("Erro ao listar vendas: " . $erro->getMessage());
         }

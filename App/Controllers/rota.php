@@ -262,13 +262,21 @@
         }
 
     } else if ($acao == 'listarVendas') {
-        include 'verificarLogin.php';
 
+       include 'verificarLogin.php';
+
+        //criar um metodo para buscar os contatos
         $vendaControlador = new VendaController();
-        try {
-            $vendas = $vendaControlador->listarVendas();
-            header('Location: ../Views/vendas.php');
-        } catch (Exception $erro) {
+        try{
+            session_start();
+            $id_usuario = $_SESSION['id_usuario'];
+
+            $lista_vendas = $vendaControlador->listarVendas($id_usuario);
+            $_SESSION['vendas'] = $lista_vendas;
+            // Redireciona para uma página de listagem com os dados dos clientes
+            header('Location: ../Views/listaVendas.php');
+        }catch(Exception $erro){
+            //tratar erro
             echo $erro->getMessage();
         }
 
