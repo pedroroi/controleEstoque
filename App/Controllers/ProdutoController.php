@@ -21,8 +21,8 @@ class ProdutoController {
         $stmt->bindValue(':preco', $produto->getPreco());
         $stmt->bindValue(':estoque', $produto->getEstoque());
         $stmt->bindValue(':unidade', $produto->getUnidade());
-        $stmt->bindValue(':id_fornecedor', $produto->getIdFornecedor());
-        $stmt->bindValue(':id_categoria', $produto->getIdCategoria());
+        $stmt->bindValue(':id_fornecedor', $produto->getFornecedor()->getId());
+        $stmt->bindValue(':id_categoria', $produto->getCategoria()->getId());
         $stmt->bindValue(':codigo_barras', $produto->getCodigoBarras());
         $stmt->bindValue(':id_usuario', $produto->getId_usuario());
 
@@ -38,6 +38,21 @@ class ProdutoController {
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+        // Método para buscar produtos com base em um termo e no ID do usuário
+        public function buscarProdutos($termo, $id_usuario) {
+            try {
+                $sql = "SELECT * FROM Produtos WHERE nome LIKE :termo AND id_usuario = :id_usuario";
+                $stmt = $this->conn->prepare($sql);
+                $stmt->bindValue(':termo', '%' . $termo . '%');
+                $stmt->bindValue(':id_usuario', $id_usuario);
+                $stmt->execute();
+    
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } catch (Exception $erro) {
+                throw new Exception("Erro ao buscar produtos: " . $erro->getMessage());
+            }
+        }
 
     // Método para listar todos os produtos
     /*public function listarProdutos($id_usuario) {
@@ -77,11 +92,7 @@ class ProdutoController {
     // Método para listar todos os produtos
     public function listarProdutos($id_usuario) {
         try {
-            $sql = "SELECT p.*, f.nome AS nome_fornecedor, c.nome AS nome_categoria 
-                    FROM Produtos p
-                    JOIN Fornecedores f ON p.id_fornecedor = f.id
-                    JOIN Categorias c ON p.id_categoria = c.id
-                    WHERE p.id_usuario = :id_usuario";
+            $sql = "SELECT * FROM Produtos WHERE id_usuario = :id_usuario";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(':id_usuario', $id_usuario);
             $stmt->execute();
@@ -90,6 +101,10 @@ class ProdutoController {
 
             $lista_produtos = [];
 
+            $controladorCategoria = new CategoriaController();
+
+            $controladorFornecedor = new FornecedorController();
+
             foreach ($resultado as $linha) {
                 $produto = new Produto();
                 $produto->setId($linha['id']);
@@ -97,21 +112,18 @@ class ProdutoController {
                 $produto->setPreco($linha['preco']);
                 $produto->setEstoque($linha['estoque']);
                 $produto->setUnidade($linha['unidade']);
-                $produto->setIdFornecedor($linha['id_fornecedor']);
-                $produto->setIdCategoria($linha['id_categoria']);
-                $produto->setCodigoBarras($linha['codigo_barras']);
-                $produto->setId_usuario($linha['id_usuario']);
+                /*$produto->setIdFornecedor($linha['id_fornecedor']);
+                $produto->setIdCategoria($linha['id_categoria']);*/
+                
+                $categoria = $controladorCategoria->buscarCategoriaPorId($linha['id_categoria'], $id_usuario);
+                $fornecedor = $controladorFornecedor->buscarFornecedorPorId($linha['id_fornecedor'], $id_usuario);
 
-                // Criar objetos Fornecedor e Categoria
-                $fornecedor = new Fornecedor();
-                $fornecedor->setNome($linha['nome_fornecedor']);
-
-                $categoria = new Categoria();
-                $categoria->setNome($linha['nome_categoria']);
-
-                // Associar os objetos ao produto
-                $produto->setFornecedor($fornecedor);
                 $produto->setCategoria($categoria);
+                $produto->setFornecedor($fornecedor);
+
+                $produto->setCodigoBarras($linha['codigo_barras']);
+
+                $produto->setId_usuario($linha['id_usuario']);
 
                 $lista_produtos[] = $produto;
             }

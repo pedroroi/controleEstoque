@@ -51,6 +51,29 @@ class CategoriaController {
         }
     }
 
+    //Método para buscar categoria pelo ID
+    public function buscarCategoriaPorId($id, $id_usuario) {
+        try {
+            $sql = "SELECT * FROM Categorias WHERE id = :id AND id_usuario = :id_usuario";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':id', $id);
+            $stmt->bindValue(':id_usuario', $id_usuario);
+            $stmt->execute();
+
+            $linha = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $categoria = new Categoria();
+            $categoria->setId($linha['id']);
+            $categoria->setNome($linha['nome']);
+            $categoria->setId_usuario($linha['id_usuario']);
+
+            return $categoria;
+
+        } catch (Exception $erro) {
+            throw $erro;
+        }
+    }
+
     // Método para listar todas as categorias
     public function listarCategorias($id_usuario) {
         try {

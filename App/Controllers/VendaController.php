@@ -13,16 +13,16 @@ class VendaController {
     // Método para cadastrar uma nova venda
     public function cadastrarVenda($venda) {
         try {
-
-            $sql = "INSERT INTO Vendas (id_cliente, id_usuario, data_venda, valor_total, forma_pagamento, status) 
-                    VALUES (:id_cliente, :id_usuario, :data_venda, :valor_total, :forma_pagamento, :status)";
+            $sql = "INSERT INTO Vendas (id_cliente, id_usuario, data_venda, valor_total, forma_pagamento, status, id_produto) 
+                    VALUES (:id_cliente, :id_usuario, :data_venda, :valor_total, :forma_pagamento, :status, :id_produto)";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(':id_cliente', $venda->getIdCliente());
-            $stmt->bindValue(':id_usuario', $venda->getIdUsuario());
+            $stmt->bindValue(':id_usuario', $venda->getId_usuario());
             $stmt->bindValue(':data_venda', date('Y-m-d H:i:s')); // Define a data e horário automaticamente
             $stmt->bindValue(':valor_total', $venda->getValorTotal());
             $stmt->bindValue(':forma_pagamento', $venda->getFormaPagamento());
             $stmt->bindValue(':status', $venda->getStatus());
+            $stmt->bindValue(':id_produto', $venda->getIdProduto());
             $stmt->execute();
 
             $this->conn = null;

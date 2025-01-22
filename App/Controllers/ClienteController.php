@@ -43,6 +43,21 @@ class ClienteController {
         }
     }
 
+    // Método para buscar clientes com base em um termo e no ID do usuário
+    public function buscarClientes($termo, $id_usuario) {
+        try {
+            $sql = "SELECT * FROM Clientes WHERE nome LIKE :termo AND id_usuario = :id_usuario";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':termo', '%' . $termo . '%');
+            $stmt->bindValue(':id_usuario', $id_usuario);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $erro) {
+            throw new Exception("Erro ao buscar clientes: " . $erro->getMessage());
+        }
+    }
+
     // Método para listar todos os clientes
     public function listarClientes($id_usuario) {
         try {

@@ -14,6 +14,8 @@
     <div class="container">
         <?php
             require_once "../Models/Venda.php";
+            require_once "../Models/Produto.php";
+            require_once "../Models/Fornecedor.php";
 
             session_start();
             $lista_vendas = $_SESSION['vendas'];
@@ -23,7 +25,7 @@
                 echo "<table>";
                 echo "<tr>";
                 echo "<td>ID da Venda</td>";
-                echo "<td>ID do Usuário da Venda</td>";
+                echo "<td>Nome do Produto</td>";
                 echo "<td>Data da Venda</td>";
                 echo "<td>Valor Total</td>";
                 echo "<td>Forma de Pagamento</td>";
@@ -33,7 +35,7 @@
                 foreach($lista_vendas as $venda){
                     echo "<tr>";
                     echo "<td> {$venda->getId()} </td>";
-                    echo "<td> {$venda->getId_usuario()} </td>";
+                    echo "<td> {$venda->getNome()} </td>";
                     echo "<td> {$venda->getDataVenda()} </td>";
                     echo "<td> {$venda->getValorTotal()} </td>";
                     echo "<td> {$venda->getFormaPagamento()}</td>";

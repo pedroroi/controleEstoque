@@ -22,7 +22,7 @@ require_once '../Controllers/verificarLogin.php';
                 <a href="../Controllers/rota.php?acao=exibeCadastroProduto">Cadastrar Produto</a>
             </li>
             <li>
-                <a href="../Views/cadastroFornecedor.php">Cadastrar Cliente</a>
+                <a href="../Views/cadastroCliente.php">Cadastrar Cliente</a>
             </li>
             <li>
                 <a href="../Views/cadastroCategoria.php">Cadastrar Categoria</a>

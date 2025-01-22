@@ -2,7 +2,10 @@
 
 class Venda {
     private $id;
-    private $id_cliente;
+    private $produto;
+    private $cliente;
+    //private $id_produto;
+    //private $id_cliente;
     private $id_usuario;
     private $data_venda;
     private $valor_total;
@@ -14,9 +17,25 @@ class Venda {
         $this->id = $id;
     }
 
+    public function setProduto($produto) {
+        $this->produto = $produto;
+    }
+
+    public function setUsuario($usuario) {
+        $this->$usuario = $usuario;
+    }
+
+    public function setCliente($cliente) {
+        $this->cliente = $cliente;
+    }
+
+    /*public function setIdProduto($id_produto) {
+        $this->id_produto = $id_produto;
+    }
+
     public function setIdCliente($id_cliente) {
         $this->id_cliente = $id_cliente;
-    }
+    }*/
 
     public function setId_usuario($id_usuario) {
         $this->id_usuario = $id_usuario;
@@ -43,9 +62,21 @@ class Venda {
         return $this->id;
     }
 
+    public function getProduto() {
+        return $this->produto;
+    }
+
+    public function getCliente() {
+        return $this->cliente;
+    }
+
+    /*public function getIdProduto() {
+        return $this->id_produto;
+    }
+
     public function getIdCliente() {
         return $this->id_cliente;
-    }
+    }*/
 
     public function getId_usuario() {
         return $this->id_usuario;

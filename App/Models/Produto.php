@@ -6,12 +6,13 @@ class Produto {
     private $preco;
     private $estoque;
     private $unidade;
-    private $id_fornecedor;
-    private $id_categoria;
     private $codigo_barras;
-    private $id_usuario;
     private $fornecedor;
     private $categoria;
+    //private $id_fornecedor;
+    //private $id_categoria;
+    private $id_usuario;
+
 
     // Métodos Setters
     public function setId($id) {
@@ -34,16 +35,24 @@ class Produto {
         $this->unidade = $unidade;
     }
 
-    public function setIdFornecedor($id_fornecedor) {
+    /*public function setIdFornecedor($id_fornecedor) {
         $this->id_fornecedor = $id_fornecedor;
     }
 
     public function setIdCategoria($id_categoria) {
         $this->id_categoria = $id_categoria;
+    } */
+        
+    public function setId_usuario($id_usuario) {
+        $this->id_usuario = $id_usuario;
     }
 
     public function setCodigoBarras($codigo_barras) {
         $this->codigo_barras = $codigo_barras;
+    }
+
+    public function setUsuario($usuario) {
+        $this->usuario = $usuario;
     }
 
     public function setFornecedor($fornecedor) {
@@ -52,10 +61,6 @@ class Produto {
 
     public function setCategoria($categoria) {
         $this->categoria = $categoria;
-    }
-    
-    public function setId_usuario($id_usuario) {
-        $this->id_usuario = $id_usuario;
     }
 
     // Métodos Getters
@@ -79,12 +84,16 @@ class Produto {
         return $this->unidade;
     }
 
-    public function getIdFornecedor() {
+    /*public function getIdFornecedor() {
         return $this->id_fornecedor;
     }
 
     public function getIdCategoria() {
         return $this->id_categoria;
+    }*/
+
+    public function getId_usuario() {
+        return $this->id_usuario;
     }
 
     public function getCodigoBarras() {
@@ -97,10 +106,6 @@ class Produto {
 
     public function getCategoria() {
         return $this->categoria;
-    }
-
-    public function getId_usuario() {
-        return $this->id_usuario;
     }
 }
 ?>

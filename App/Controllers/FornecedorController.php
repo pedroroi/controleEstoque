@@ -44,6 +44,33 @@ class FornecedorController {
         }
     }
 
+    //Método para buscar fornecedor pelo ID
+    public function buscarFornecedorPorId($id, $id_usuario) {
+        try {
+            $sql = "SELECT * FROM Fornecedores WHERE id = :id AND id_usuario = :id_usuario";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':id', $id);
+            $stmt->bindValue(':id_usuario', $id_usuario);
+            $stmt->execute();
+
+            $linha = $stmt->fetch(PDO::FETCH_ASSOC);
+                
+            $fornecedor = new Fornecedor();
+            $fornecedor->setId($linha['id']);
+            $fornecedor->setNome($linha['nome']);
+            $fornecedor->setCnpj($linha['cnpj']);
+            $fornecedor->setTelefone($linha['telefone']);
+            $fornecedor->setEmail($linha['email']);
+            $fornecedor->setEndereco($linha['endereco']);
+            $fornecedor->setId_usuario($linha['id_usuario']);
+
+            return $fornecedor;
+
+        } catch (Exception $erro) {
+            throw $erro;
+        }
+    }
+
     // Método para listar todos os fornecedores
     public function listarFornecedores($id_usuario) {
         try {
