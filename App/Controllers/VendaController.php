@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../Models/Conexao.php';
 require_once __DIR__ . '/../Models/Venda.php';
+require_once __DIR__ . '/../Models/Produto.php';
+require_once __DIR__ . '/../Models/Cliente.php';
 
 class VendaController {
     private $conn;
@@ -15,17 +17,18 @@ class VendaController {
         try {
             $sql = "INSERT INTO Vendas (id_cliente, id_usuario, data_venda, valor_total, forma_pagamento, status, id_produto) 
                     VALUES (:id_cliente, :id_usuario, :data_venda, :valor_total, :forma_pagamento, :status, :id_produto)";
+            
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindValue(':id_cliente', $venda->getIdCliente());
+            $stmt->bindValue(':id_cliente', $venda->getCliente()->getId());
             $stmt->bindValue(':id_usuario', $venda->getId_usuario());
             $stmt->bindValue(':data_venda', date('Y-m-d H:i:s')); // Define a data e horário automaticamente
             $stmt->bindValue(':valor_total', $venda->getValorTotal());
             $stmt->bindValue(':forma_pagamento', $venda->getFormaPagamento());
             $stmt->bindValue(':status', $venda->getStatus());
-            $stmt->bindValue(':id_produto', $venda->getIdProduto());
+            $stmt->bindValue(':id_produto', $venda->getProduto()->getId());
+
             $stmt->execute();
 
-            $this->conn = null;
         } catch (Exception $erro) {
             throw new Exception("Erro ao cadastrar venda: " . $erro->getMessage());
         }
@@ -43,16 +46,26 @@ class VendaController {
 
             $lista_vendas = [];
 
+            $controladorCliente = new ClienteController();
+
+            $controladorProduto = new ProdutoController();
+
             foreach ($resultado as $linha) {
                 
                 $venda = new venda();
                 $venda->setId($linha['id']);
-                $venda->setIdCliente($linha['id_cliente']);
                 $venda->setDataVenda($linha['data_venda']);
                 $venda->setValorTotal($linha['valor_total']);
                 $venda->setFormaPagamento($linha['forma_pagamento']);
                 $venda->setStatus($linha['status']);
                 $venda->setId_usuario($linha['id_usuario']);
+
+                // Buscando a categoria e o fornecedor do produto
+                $cliente = $controladorCliente->buscarClientePorId($linha['id_cliente'], $id_usuario);
+                $produto = $controladorProduto->buscarProdutoPorId($linha['id_produto'], $id_usuario);
+                // Trazendo a categoria e o fornecedor do produto
+                $venda->setCliente($cliente);
+                $venda->setProduto($produto);
 
                 // Formatar a data para o padrão brasileiro ao exibir
                 $dataVenda = DateTime::createFromFormat('Y-m-d H:i:s', $linha['data_venda']);

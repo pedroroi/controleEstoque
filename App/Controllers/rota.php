@@ -49,10 +49,6 @@
             $_SESSION['fornecedores'] = $fornecedores;
             $_SESSION['categorias'] = $categorias;
 
-            // Depuração
-            //var_dump($_SESSION['fornecedores']);
-            //var_dump($_SESSION['categorias']);
-
             // Redireciona para uma página de cadastro de produto
             header('Location: ../Views/cadastroProduto.php');
         } catch (Exception $erro) {
@@ -75,14 +71,12 @@
         $id_categoria = $_POST['id_categoria'];
 
         $produto = new Produto();
+
         $produto->setNome($nome);
         $produto->setPreco($preco);
         $produto->setEstoque($estoque);
         $produto->setUnidade($unidade);
         $produto->setCodigoBarras($codigo_barras);
-        /*$produto->setIdFornecedor($id_fornecedor);
-        $produto->setIdCategoria($id_categoria);
-        */
 
         $controladorCategoria = new CategoriaController();
         $controladorFornecedor = new FornecedorController();
@@ -279,24 +273,23 @@
     } else if ($acao == 'exibeVenda') {
         include 'verificarLogin.php';
 
-        $produtoControlador = new ProdutoController();
-        $clienteControlador = new ClienteController();
+        $produtosControlador = new ProdutoController();
+        $clientesControlador = new ClienteController();
+
         try {
             session_start();
             $id_usuario = $_SESSION['id_usuario'];
-
+            
             $produtos = $produtosControlador->listarProdutos($id_usuario);
             $_SESSION['produtos'] = $produtos;
             $clientes = $clientesControlador->listarClientes($id_usuario);
             $_SESSION['clientes'] = $clientes;
-
-
             // Redireciona para uma página de cadastro de produto
-            header('Location: ../Views/venda.php');
+            header('Location: ../Views/caixa.php');
         } catch (Exception $erro) {
             echo $erro->getMessage();
         }
-
+    
     } else if ($acao == 'cadastrarVenda') {
         include 'verificarLogin.php';
 
@@ -308,19 +301,24 @@
         $valor_total = $_POST['valor_total'];
         $forma_pagamento = $_POST['forma_pagamento'];
         $status = $_POST['status'];
-    
+
+        $controladorCliente = new ClienteController();
+        $controladorProduto = new ProdutoController();
+
         $venda = new Venda();
-        $venda->setIdCliente($id_cliente);
-        $venda->setId_usuario($id_usuario);
+
+        $venda->setDataVenda(date('Y-m-d H:i:s'));
         $venda->setValorTotal($valor_total);
         $venda->setFormaPagamento($forma_pagamento);
         $venda->setStatus($status);
-        $venda->setIdProduto($id_produto);
-    
+        $venda->setId_usuario($id_usuario);
+
+        $venda->setCliente($controladorCliente->buscarClientePorId($id_cliente, $id_usuario));
+        $venda->setProduto($controladorProduto->buscarProdutoPorId($id_produto, $id_usuario));
+  
         $vendaControlador = new VendaController();
         try {
             $vendaControlador->cadastrarVenda($venda);
-            var_dump($venda);
             header('Location: ../Views/dashboard.php');
         } catch (Exception $erro) {
             echo $erro->getMessage();
@@ -370,12 +368,19 @@
         $status = $_POST['status'];
 
         $venda = new Venda();
-        $venda->setIdCliente($id_cliente);
         $venda->setDataVenda($data_venda);
         $venda->setValorTotal($valor_total);
         $venda->setFormaPagamento($forma_pagamento);
-        $venda->setIdUsuario($id_funcionario);
         $venda->setStatus($status);
+
+        $controladorCliente = new ClienteController();
+        $controladorProduto = new ProdutoController();
+
+        $cliente = $controladorCliente->buscarClientePorId($id_cliente, $id_usuario);
+        $produto = $controladorProduto->buscarProdutoPorId($id_produto, $id_usuario);
+
+        $venda->setCliente($cliente);
+        $venda->setProduto($produto);
 
         $vendaControlador = new VendaController();
         try {

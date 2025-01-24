@@ -58,6 +58,32 @@ class ClienteController {
         }
     }
 
+    //Método para buscar cliente pelo ID
+    public function buscarClientePorId($id, $id_usuario) {
+        try {
+            $sql = "SELECT * FROM Clientes WHERE id = :id AND id_usuario = :id_usuario";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':id', $id);
+            $stmt->bindValue(':id_usuario', $id_usuario);
+            $stmt->execute();
+
+            $linha = $stmt->fetch(PDO::FETCH_ASSOC);
+                
+            $cliente = new Cliente();
+            $cliente->setId($linha['id']);
+            $cliente->setNome($linha['nome']);
+            $cliente->setEmail($linha['email']);
+            $cliente->setTelefone($linha['telefone']);
+            $cliente->setEndereco($linha['endereco']);
+            $cliente->setId_usuario($linha['id_usuario']);
+
+            return $cliente;
+
+        } catch (Exception $erro) {
+            throw $erro;
+        }
+    }
+
     // Método para listar todos os clientes
     public function listarClientes($id_usuario) {
         try {
